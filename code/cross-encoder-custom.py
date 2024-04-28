@@ -14,7 +14,7 @@ from transformers import get_scheduler
 
 # https://huggingface.co/docs/datasets/tabular_load#pandas-dataframes
 # load Dataset from Pandas DataFrame
-raw_input = pd.read_json("triples-ms-marco-tiny.jsonl.gz", encoding="utf-8", lines=True)
+raw_input = pd.read_json("../data/triples-ms-marco-tiny.jsonl.gz", encoding="utf-8", lines=True)
 df = []
 
 for _, i in raw_input.iterrows():
@@ -35,6 +35,7 @@ train_batch_size = 32
 
 # We set num_labels=1 and set the activation function to Identity, so that we get the raw logits
 device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"Using device: {device}")
 model = CrossEncoder(checkpoint, num_labels=1, max_length=512, device=device)
 
 train_dataloader = DataLoader(df, shuffle=True, batch_size=train_batch_size)
@@ -45,7 +46,7 @@ loss_function = torch.nn.BCEWithLogitsLoss()
 # Define optimizer
 optimizer = torch.optim.Adam(model.model.parameters(), lr=2e-5)
 
-num_epochs = 1
+num_epochs = 10
 num_training_steps = num_epochs * len(train_dataloader)
 lr_scheduler = get_scheduler(
     name="linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=num_training_steps
@@ -66,9 +67,10 @@ for epoch in range(num_epochs):
             formatted += [
                 [batch["query"][i], batch["text"][i]]
             ]
-
         outputs = model.predict(formatted, convert_to_tensor=True)
-        inputs = torch.tensor(outputs, requires_grad=True)
+        inputs = torch.tensor(outputs, requires_grad=True)  # needed for backpropagation
+        batch["label"] = torch.tensor(batch["label"]).to(device)  # needed for loss function
+
         loss = loss_function(inputs, batch["label"])
         loss.backward()
 
@@ -83,4 +85,3 @@ for epoch in range(num_epochs):
 
 # Save latest model
 model.save("cross-encoder-custom")
-

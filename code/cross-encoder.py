@@ -38,57 +38,29 @@ for _, i in raw_input.iterrows():
 # The model we want to fine-tune
 checkpoint = "bert-base-uncased"
 train_batch_size = 32
-num_epochs = 1
+num_epochs = 10
 
 # We set num_labels=1 and set the activation function to Identity, so that we get the raw logits
+# if cuda is available, it will be automatically used
 model = CrossEncoder(checkpoint, num_labels=1, max_length=512)
 
 # We create a DataLoader to load our train samples
-train_dataloader = DataLoader(df, shuffle=True, batch_size=train_batch_size)
-
-# Print the first entry in train_dataloader
-# print(next(iter(train_dataloader)))
+train_dataloader = DataLoader(df[:320], shuffle=True, batch_size=train_batch_size)
 
 # We define our loss funtion
 loss_function = torch.nn.BCEWithLogitsLoss()
 
 # TODO: write training with (fit) method
-# TODO: write training loop
-
-'''
-for epoch in range(num_epochs):
-    model.model.train()
-    for i, batch in enumerate(train_dataloader):
-        # print(i, batch)
-        queries = batch["query"]
-        passages = batch["text"]
-        labels = batch["labels"]
-
-        # Forward pass
-        scores = model.predict([queries, passages], show_progress_bar=True)
-
-        # Compute loss
-        loss = loss_function(scores, labels)
-
-        # Backward pass
-        loss.backward()
-
-        # Update weights
-        model.optimizer.step()
-        model.optimizer.zero_grad()
-
-        print(f"Epoch: {epoch}, Loss: {loss.item()}")
-'''
 
 # Train the model
 model.fit(
     train_dataloader=train_dataloader,
     loss_fct=loss_function,
     epochs=num_epochs,
-    evaluation_steps=10000,
-    warmup_steps=5000,
+    evaluation_steps=1,
+    warmup_steps=0,
 )
 
 
 # Save latest model
-model.save("cross-encoder-ms-marco-tiny")
+model.save("cross-encoder")

@@ -2,6 +2,7 @@
 from tqdm import tqdm
 import pandas as pd
 
+
 def parse_tsv(file_name):
     with open(file_name, 'r') as f:
         covered_queries = set()
@@ -15,8 +16,8 @@ def parse_tsv(file_name):
 
         print(f'Processed {len(covered_queries)} queries')
 
+
 if __name__ == '__main__':
-    df =  list(parse_tsv('triples.train.small.tsv'))
+    df = list(parse_tsv('triples.train.small.tsv'))
     print(len(df))
     pd.DataFrame(df).to_json('triples-train.jsonl.gz', lines=True, orient='records')
-    
