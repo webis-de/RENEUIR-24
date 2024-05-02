@@ -30,15 +30,16 @@ for _, i in raw_input.iterrows():
 training_data = Dataset.from_pandas(pd.DataFrame(df))
 
 # The model we want to fine-tune
-checkpoint = "bert-base-uncased"
-train_batch_size = 32
+checkpoint = "prajjwal1/bert-tiny"
+train_batch_size = 200
+num_epochs = 10
 
 # We set num_labels=1 and set the activation function to Identity, so that we get the raw logits
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
-model = CrossEncoder(checkpoint, num_labels=1, max_length=512, device=device)
+model = CrossEncoder(checkpoint, num_labels=1, device=device)
 
-train_dataloader = DataLoader(df, shuffle=True, batch_size=train_batch_size)
+train_dataloader = DataLoader(training_data, shuffle=True, batch_size=train_batch_size)
 
 # We define our loss function
 loss_function = torch.nn.BCEWithLogitsLoss()
@@ -46,7 +47,7 @@ loss_function = torch.nn.BCEWithLogitsLoss()
 # Define optimizer
 optimizer = torch.optim.Adam(model.model.parameters(), lr=2e-5)
 
-num_epochs = 10
+
 num_training_steps = num_epochs * len(train_dataloader)
 lr_scheduler = get_scheduler(
     name="linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=num_training_steps
@@ -84,4 +85,4 @@ for epoch in range(num_epochs):
 
 
 # Save latest model
-model.save("cross-encoder-custom")
+model.save("cross-encoder-custom-bert-tiny-512")

@@ -36,21 +36,19 @@ for _, i in raw_input.iterrows():
 # print(training_data[0])
 
 # The model we want to fine-tune
-checkpoint = "bert-base-uncased"
-train_batch_size = 32
+checkpoint = "prajjwal1/bert-tiny"
+train_batch_size = 200
 num_epochs = 10
 
 # We set num_labels=1 and set the activation function to Identity, so that we get the raw logits
 # if cuda is available, it will be automatically used
-model = CrossEncoder(checkpoint, num_labels=1, max_length=512)
+model = CrossEncoder(checkpoint, num_labels=1)
 
 # We create a DataLoader to load our train samples
-train_dataloader = DataLoader(df[:320], shuffle=True, batch_size=train_batch_size)
+train_dataloader = DataLoader(df, shuffle=True, batch_size=train_batch_size)
 
 # We define our loss funtion
 loss_function = torch.nn.BCEWithLogitsLoss()
-
-# TODO: write training with (fit) method
 
 # Train the model
 model.fit(
@@ -63,4 +61,4 @@ model.fit(
 
 
 # Save latest model
-model.save("cross-encoder")
+model.save("cross-encoder-bert-tiny-bs-200")

@@ -23,3 +23,7 @@ Slurm script to start a training using the _cross-encoder.py_ trainer.
 Start script: `sbatch training-slurm.sh` \
 Monitor job: `squeue - u <username>` \
 Canceling job: `scancel <job_id>`
+
+## fine-tuned-test.py
+
+Example how to load and use fine-tuned models from the HG Hub.
