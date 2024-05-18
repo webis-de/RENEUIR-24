@@ -39,11 +39,11 @@ loss_function = torch.nn.BCEWithLogitsLoss()
 
 
 def train(train_batch_size, num_epoch, learning_rate, random_seed, checkpoint_name):
+    # set random seed
+    torch.manual_seed(random_seed)
     # We set num_labels=1 and set the activation function to Identity, so that we get the raw logits
     # if cuda is available, it will be automatically used
     model = CrossEncoder(checkpoint, num_labels=1)
-    # set random seed
-    torch.manual_seed(random_seed)
     # We create a DataLoader to load our train samples
     train_dataloader = DataLoader(df, shuffle=True, batch_size=train_batch_size)
     # Train the model
