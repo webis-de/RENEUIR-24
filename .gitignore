@@ -11,3 +11,4 @@ triples-ms-marco-tiny.jsonl.gz
 triples-ms-marco-tiny.jsonl/
 triples-train.jsonl
 cross-encoder-bert-tiny-*
+cross-encoders/
