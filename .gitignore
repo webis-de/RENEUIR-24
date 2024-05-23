@@ -11,4 +11,7 @@ triples-ms-marco-tiny.jsonl.gz
 triples-ms-marco-tiny.jsonl/
 triples-train.jsonl
 cross-encoder-bert-tiny-*
-cross-encoders/
+cross-encoders_old/
+fine-tuned/
+triples-train-1gb.jsonl.gz
+msmarco-passage-trec-dl-2019-judged-20230107-training-rerank.jsonl.gz

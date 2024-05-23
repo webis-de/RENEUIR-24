@@ -83,21 +83,21 @@ for batch_size in train_batch_sizes:
           baseline_num_epochs,
           baseline_learning_rate,
           baseline_random_seed,
-          f"cross-encoder-{batch_size}-10-2e5-42")
+          f"cross-encoder-{batch_size}-10-2e5-233")
 
 for num_epochs in train_num_epochs:
     train(baseline_batch_size,
           num_epochs,
           baseline_learning_rate,
           baseline_random_seed,
-          f"cross-encoder-32-{num_epochs}-2e5-42")
+          f"cross-encoder-32-{num_epochs}-2e5-233")
 
 for learning_rate in train_learning_rates:
     train(baseline_batch_size,
           baseline_num_epochs,
           learning_rate,
           baseline_random_seed,
-          f"cross-encoder-32-10-{learning_rate}-42")
+          f"cross-encoder-32-10-{learning_rate}-233")
 
 for random_seed in train_random_seeds:
     train(baseline_batch_size,
