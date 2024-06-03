@@ -37,7 +37,7 @@ for _, i in raw_input.iterrows():
 
 # The model we want to fine-tune
 checkpoint = "prajjwal1/bert-tiny"
-train_batch_size = 200
+train_batch_size = 32
 num_epochs = 10
 
 # We set num_labels=1 and set the activation function to Identity, so that we get the raw logits

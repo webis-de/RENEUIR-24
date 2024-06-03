@@ -3,43 +3,43 @@ To determine the appropriate hyperparameters for our training system, we systema
 Initially, hyperparameters were intuitively selected and designated as the baseline model, reflecting the default values of the training method employed. To explore alternative hyperparameters, we tested values both below and above the defaults. For each parameter to be fine-tuned, three different values were selected. Each parameter was altered individually with respect to the baseline, resulting in the generation, training, and evaluation of 13 models in total. This approach ensures a comprehensive assessment of each hyperparameter's impact on model performance.
 
 \begin{table}[h!]
-\centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
-\hline
-index & name & bs & epochs & lr & seed & ndcg\_cut.10 & recip\_rank \\
-\hline
-0 & BM25 & & & & & 0.4795 & 0.7950 \\
-\hline
-\multicolumn{8}{|c|}{base line:} \\
-\hline
-1 & cross-encoder- & 32 & 10 & 2e-5 & 233 & 0.6251 & 0.9162 \\
-\hline
-\multicolumn{8}{|c|}{batch size:} \\
-\hline
-2 & cross-encoder- & 16 & 10 & 2e-5 & 233 & 0.6045 & 0.8901 \\
-3 & cross-encoder- & 64 & 10 & 2e-5 & 233 & 0.6309 & 0.9147 \\
-4 & cross-encoder- & 128 & 10 & 2e-5 & 233 & 0.6248 & 0.8904 \\
-\hline
-\multicolumn{8}{|c|}{epochs:} \\
-\hline
-5 & cross-encoder- & 32 & 5 & 2e-5 & 233 & 0.6100 & 0.9036 \\
-6 & cross-encoder- & 32 & 15 & 2e-5 & 233 & 0.6380 & 0.9005 \\
-7 & cross-encoder- & 32 & 20 & 2e-5 & 233 & 0.6319 & 0.9009 \\
-\hline
-\multicolumn{8}{|c|}{learning rate} \\
-\hline
-8 & cross-encoder- & 32 & 10 & 1e-5 & 233 & 0.6040 & 0.9152 \\
-9 & cross-encoder- & 32 & 10 & 1e-4 & 233 & 0.5832 & 0.8843 \\
-10 & cross-encoder- & 32 & 10 & 5e-4 & 233 & 0.5129 & 0.8502 \\
-\hline
-\multicolumn{8}{|c|}{seed:} \\
-\hline
-11 & cross-encoder- & 32 & 10 & 2e-5 & 5 & 0.6241 & 0.9044 \\
-12 & cross-encoder- & 32 & 10 & 2e-5 & 6765 & 0.6170 & 0.9068 \\
-13 & cross-encoder- & 32 & 10 & 2e-5 & 46368 & 0.6200 & 0.8947 \\
-\hline
-\end{tabular}
-\caption{Evaluation of Cross-Encoder Models with Various Hyperparameters}
-\label{table:cross_encoder}
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+        \hline
+        index & name & bs & epochs & lr & seed & ndcg\_cut.10 & recip\_rank \\
+        \hline
+        0 & BM25 & & & & & 0.4795 & 0.7950 \\
+        \hline
+        \multicolumn{8}{|c|}{base line:} \\
+        \hline
+        1 & cross-encoder- & 32 & 10 & 2e-5 & 233 & 0.6251 & 0.9162 \\
+        \hline
+        \multicolumn{8}{|c|}{batch size:} \\
+        \hline
+        2 & cross-encoder- & 16 & 10 & 2e-5 & 233 & 0.6045 & 0.8901 \\
+        3 & cross-encoder- & 64 & 10 & 2e-5 & 233 & 0.6309 & 0.9147 \\
+        4 & cross-encoder- & 128 & 10 & 2e-5 & 233 & 0.6248 & 0.8904 \\
+        \hline
+        \multicolumn{8}{|c|}{epochs:} \\
+        \hline
+        5 & cross-encoder- & 32 & 5 & 2e-5 & 233 & 0.6100 & 0.9036 \\
+        6 & cross-encoder- & 32 & 15 & 2e-5 & 233 & 0.6380 & 0.9005 \\
+        7 & cross-encoder- & 32 & 20 & 2e-5 & 233 & 0.6319 & 0.9009 \\
+        \hline
+        \multicolumn{8}{|c|}{learning rate} \\
+        \hline
+        8 & cross-encoder- & 32 & 10 & 1e-5 & 233 & 0.6040 & 0.9152 \\
+        9 & cross-encoder- & 32 & 10 & 1e-4 & 233 & 0.5832 & 0.8843 \\
+        10 & cross-encoder- & 32 & 10 & 5e-4 & 233 & 0.5129 & 0.8502 \\
+        \hline
+        \multicolumn{8}{|c|}{seed:} \\
+        \hline
+        11 & cross-encoder- & 32 & 10 & 2e-5 & 5 & 0.6241 & 0.9044 \\
+        12 & cross-encoder- & 32 & 10 & 2e-5 & 6765 & 0.6170 & 0.9068 \\
+        13 & cross-encoder- & 32 & 10 & 2e-5 & 46368 & 0.6200 & 0.8947 \\
+        \hline
+    \end{tabular}
+    \caption{Evaluation of Cross-Encoder Models with Various Hyperparameters}
+    \label{table:cross_encoder}
 \end{table}
 
