@@ -35,9 +35,8 @@ if __name__ == '__main__':
         qid_to_doc_scores[qid] = bm25_score(q[qid], docids)
 
     for i in tqdm(list(scored_docs().scoreddocs_iter()), 'Get Document Texts'):
-        ret += [{'query_id': i.query_id, 'doc_id': i.doc_id, 'score': i.score, 'query': q[i.query_id], 'text': docs_store.get(i.doc_id).default_text(), 'scores': qid_to_doc_scores[qid][i.doc_id]}]
-
+        ret += [{'query_id': i.query_id, 'doc_id': i.doc_id, 'score': i.score, 'query': q[i.query_id], 'text': docs_store.get(i.doc_id).default_text(), 'scores': qid_to_doc_scores[i.query_id][i.doc_id]}]
 
     with gzip.open('rank-distill-llm.jsonl.gz', 'wt') as f:
         for i in ret:
-            f.write(json.dumps(i))
+            f.write(json.dumps(i) + '\n')
