@@ -22,7 +22,22 @@ def queries():
 if __name__ == '__main__':
     q = queries()
     docs_store = dataset.docs_store()
-    with gzip.open('rank-distill-llm.jsonl.gz', 'wt') as f:
-        for i in tqdm(list(scored_docs().scoreddocs_iter())):
-            f.write(json.dumps({'query_id': i.query_id, 'doc_id': i.doc_id, 'score': i.score, 'query': q[i.query_id], 'text': docs_store.get(i.doc_id).default_text()}) + '\n')
+    ret = []
+    qid_to_docs = {}
+    qid_to_doc_scores = {}
 
+    for i in list(scored_docs().scoreddocs_iter()):
+        if i.query_id not in qid_to_docs:
+            qid_to_docs[i.query_id] = set()
+        qid_to_docs[i.query_id].add(i.doc_id)
+
+    for qid, docids in tqdm(qid_to_docs.items(), 'Score Queries'):
+        qid_to_doc_scores[qid] = bm25_score(q[qid], docids)
+
+    for i in tqdm(list(scored_docs().scoreddocs_iter()), 'Get Document Texts'):
+        ret += [{'query_id': i.query_id, 'doc_id': i.doc_id, 'score': i.score, 'query': q[i.query_id], 'text': docs_store.get(i.doc_id).default_text(), 'scores': qid_to_doc_scores[qid][i.doc_id]}]
+
+
+    with gzip.open('rank-distill-llm.jsonl.gz', 'wt') as f:
+        for i in ret:
+            f.write(json.dumps(i))
