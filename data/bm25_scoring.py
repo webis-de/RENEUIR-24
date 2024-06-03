@@ -24,3 +24,7 @@ def bm25_score(query, docnos):
 
     return None
 
+if __name__ == '__main__':
+    #export IR_DATASETS_HOME="/mnt/ceph/storage/data-tmp/current/kibi9872/.ir_datasets"
+    bm25_score('hello world', ['7694473', '4373328'])
+
