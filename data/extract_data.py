@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from tqdm import tqdm
 import pandas as pd
+from bm25_scoring import bm25_score
 
 
 def parse_tsv(file_name):

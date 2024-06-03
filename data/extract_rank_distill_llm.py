@@ -5,6 +5,7 @@ import ir_datasets
 import gzip
 from tqdm import tqdm
 import json
+from bm25_scoring import bm25_score
 
 dataset = ir_datasets.load("msmarco-passage/train")
 
