@@ -56,7 +56,7 @@ for qid in tqdm.tqdm(scores_validation.keys(), desc = "reading validation scores
     scores[qid][did] = normalized_score
 
 #First, we define the transformer model we want to fine-tune
-model_name = 'microsoft/MiniLM-L12-H384-uncased'
+model_name = 'prajjwal1/bert-tiny'
 train_batch_size = 32
 num_epochs = 1
 model_save_path = data_folder + '/../models-bm25-cat/train-cross-encoder-kd-bm25cat-'+model_name.replace("/", "-")+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
