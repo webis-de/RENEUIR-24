@@ -14,7 +14,7 @@ import tarfile
 import tqdm
 import torch
 import json
-util.http_get('https://github.com/arian-askari/ms-marco-MiniLM-L-12-v3/raw/main/train/CERerankingEvaluator_bm25cat.py', os.path.join('./', 'CERerankingEvaluator_bm25cat.py')) # download CERerankingEvaluator_bm25cat code which is a modification on CERerankingEvaluator.py class from SBERT
+
 from CERerankingEvaluator_bm25cat import CERerankingEvaluator
 #### Just some code to print debug information to stdout
 logging.basicConfig(format='%(asctime)s - %(message)s',
@@ -24,20 +24,15 @@ logging.basicConfig(format='%(asctime)s - %(message)s',
 #### /print debug information to stdout
 
 ### We make a directory for storing the MS Marco dataset
-data_folder = 'msmarco-data'
+data_folder = '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/'
 injection_folder = data_folder + "/injection_scores"
-os.makedirs(data_folder, exist_ok=True)
 os.makedirs(injection_folder, exist_ok=True)
 
 # We download injection scores
 
 train_scores_path = os.path.join(injection_folder, '1_bm25_scores_train_triples_small.json')
-logging.info("Download "+os.path.basename(train_scores_path))
-util.http_get('https://www.dropbox.com/scl/fi/ssgpoun44jtlrwy24wrad/1_bm25_scores_train_triples_small.json?rlkey=3og8ayxmyjxsei7okdumseaq7&raw=1', train_scores_path)
 
 validation_scores_path = os.path.join(injection_folder, '5_bm25_scores_train-eval_triples.json')
-logging.info("Download "+os.path.basename(validation_scores_path))
-util.http_get('https://www.dropbox.com/scl/fi/q433llwfdk701x336ce3p/5_bm25_scores_train-eval_triples.json?rlkey=5782bylutyzmk10f1uax3iao5&raw=1', validation_scores_path)
 
 # Loading injection scores and applying normalization (global min-max in the paper)
 global_min_bm25 = 0
@@ -76,10 +71,6 @@ corpus = {}
 collection_filepath = os.path.join(data_folder, 'collection.tsv')
 if not os.path.exists(collection_filepath):
     tar_filepath = os.path.join(data_folder, 'collection.tar.gz')
-    if not os.path.exists(tar_filepath):
-        logging.info("Download collection.tar.gz")
-        util.http_get('https://msmarco.blob.core.windows.net/msmarcoranking/collection.tar.gz', tar_filepath)
-
     with tarfile.open(tar_filepath, "r:gz") as tar:
         tar.extractall(path=data_folder)
 
@@ -94,9 +85,6 @@ queries = {}
 queries_filepath = os.path.join(data_folder, 'queries.train.tsv')
 if not os.path.exists(queries_filepath):
     tar_filepath = os.path.join(data_folder, 'queries.tar.gz')
-    if not os.path.exists(tar_filepath):
-        logging.info("Download queries.tar.gz")
-        util.http_get('https://msmarco.blob.core.windows.net/msmarcoranking/queries.tar.gz', tar_filepath)
 
     with tarfile.open(tar_filepath, "r:gz") as tar:
         tar.extractall(path=data_folder)
@@ -121,9 +109,6 @@ num_max_dev_negatives = 200
 # shuffled version of qidpidtriples.train.full.2.tsv.gz from the MS Marco website
 # We extracted in the train-eval split 500 random queries that can be used for evaluation during training
 train_eval_filepath = os.path.join(data_folder, 'msmarco-qidpidtriples.rnd-shuf.train-eval.tsv.gz')
-if not os.path.exists(train_eval_filepath):
-    logging.info("Download "+os.path.basename(train_eval_filepath))
-    util.http_get('https://sbert.net/datasets/msmarco-qidpidtriples.rnd-shuf.train-eval.tsv.gz', train_eval_filepath)
 
 with gzip.open(train_eval_filepath, 'rt') as fIn:
     for line in fIn:
@@ -147,8 +132,6 @@ dev_qids = set(dev_samples.keys())
 # As input examples, we provide the (query, passage) pair together with the logits score from the teacher ensemble
 teacher_logits_filepath = os.path.join(data_folder, 'bert_cat_ensemble_msmarcopassage_train_scores_ids.tsv')
 train_samples = []
-if not os.path.exists(teacher_logits_filepath):
-    util.http_get('https://zenodo.org/record/4068216/files/bert_cat_ensemble_msmarcopassage_train_scores_ids.tsv?download=1', teacher_logits_filepath)
 
 with open(teacher_logits_filepath) as fIn:
     for line in fIn:
