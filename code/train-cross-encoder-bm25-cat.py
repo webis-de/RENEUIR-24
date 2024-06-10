@@ -73,7 +73,7 @@ SLURM_TASK_ID_TO_MODEL = {
     4: 'bert-tiny-pretrained-51200',
 }
 
-model_name = SLURM_TASK_ID_TO_MODEL[os.environ.get('SLURM_ARRAY_TASK_ID')]
+model_name = SLURM_TASK_ID_TO_MODEL[int(os.environ.get('SLURM_ARRAY_TASK_ID'))]
 
 train_batch_size = 32
 num_epochs = 1
