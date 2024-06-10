@@ -58,11 +58,19 @@ for qid in tqdm.tqdm(scores_validation.keys(), desc = "reading validation scores
 #First, we define the transformer model we want to fine-tune
 
 MODELS = {
-    'bert-tiny-from-scratch': '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/models--prajjwal1--bert-tiny/snapshots/6f75de8b60a9f8a2fdf7b69cbd86d9e64bcb3837'
+    'bert-tiny-from-scratch': '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/models--prajjwal1--bert-tiny/snapshots/6f75de8b60a9f8a2fdf7b69cbd86d9e64bcb3837',
+    'bert-tiny-pretrained-1gb': '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/models--Integer-Ctrl--cross-encoder-bert-tiny-1gb-bs32/snapshots/94de6cd2d169d5a0b15bb17021713ac1cb91e0ed',
+    'bert-tiny-pretrained-512': '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/models--Integer-Ctrl--cross-encoder-bert-tiny-512/snapshots/7415399968e780d904e7e9a7b84d20304b834ef7',
+    'bert-tiny-pretrained-5120': '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/models--Integer-Ctrl--cross-encoder-bert-tiny-5120/snapshots/845964d41cd8b81a2433e74fb9766b7c9255ec1c',
+    'bert-tiny-pretrained-51200': '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/models--Integer-Ctrl--cross-encoder-bert-tiny-51200/snapshots/3a588aa4b9fbd2e22f33cfb0095e837f38934364',
 }
 
 SLURM_TASK_ID_TO_MODEL = {
-    0: 'bert-tiny-from-scratch'
+    0: 'bert-tiny-from-scratch',
+    1: 'bert-tiny-pretrained-1gb',
+    2: 'bert-tiny-pretrained-512',
+    3: 'bert-tiny-pretrained-5120',
+    4: 'bert-tiny-pretrained-51200',
 }
 
 model_name = SLURM_TASK_ID_TO_MODEL[os.environ.get('SLURM_ARRAY_TASK_ID')]
