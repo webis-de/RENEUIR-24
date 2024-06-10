@@ -70,7 +70,7 @@ model = CrossEncoder(model_name, num_labels=1, max_length=512, default_activatio
 corpus = {}
 collection_filepath = os.path.join(data_folder, 'collection.tsv')
 with open(collection_filepath, 'r', encoding='utf8') as fIn:
-    for line in fIn:
+    for line in tqdm(fIn, 'read collection'):
         pid, passage = line.strip().split("\t")
         corpus[pid] = passage
 
@@ -79,7 +79,7 @@ with open(collection_filepath, 'r', encoding='utf8') as fIn:
 queries = {}
 queries_filepath = os.path.join(data_folder, 'queries.train.tsv')
 with open(queries_filepath, 'r', encoding='utf8') as fIn:
-    for line in fIn:
+    for line in tqdm(fIn, 'read queries'):
         qid, query = line.strip().split("\t")
         queries[qid] = query
 
@@ -99,7 +99,7 @@ num_max_dev_negatives = 200
 train_eval_filepath = os.path.join(data_folder, 'msmarco-qidpidtriples.rnd-shuf.train-eval.tsv.gz')
 
 with gzip.open(train_eval_filepath, 'rt') as fIn:
-    for line in fIn:
+    for line in tqdm(fIn, 'read triples'):
         qid, pos_id, neg_id = line.strip().split()
 
         if qid not in dev_samples and len(dev_samples) < num_dev_queries:
@@ -122,7 +122,7 @@ teacher_logits_filepath = os.path.join(data_folder, 'bert_cat_ensemble_msmarcopa
 train_samples = []
 
 with open(teacher_logits_filepath) as fIn:
-    for line in fIn:
+    for line in tqdm(fIn, 'read logits'):
         pos_score, neg_score, qid, pid1, pid2 = line.strip().split("\t")
 
         if qid in dev_qids: #Skip queries in our dev dataset
