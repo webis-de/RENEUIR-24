@@ -24,8 +24,8 @@ logging.basicConfig(format='%(asctime)s - %(message)s',
 #### /print debug information to stdout
 
 ### We make a directory for storing the MS Marco dataset
-data_folder = '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/training-data-bm25-cat'
-injection_folder = data_folder + "/injection_scores"
+data_folder = '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/training-data-bm25-cat/'
+injection_folder = data_folder + "/injection_scores/"
 os.makedirs(injection_folder, exist_ok=True)
 
 # We download injection scores
@@ -37,7 +37,7 @@ validation_scores_path = os.path.join(injection_folder, '5_bm25_scores_train-eva
 # Loading injection scores and applying normalization (global min-max in the paper)
 global_min_bm25 = 0
 global_max_bm25 = 50
-scores_path = "./msmarco-data/injection_scores/1_bm25_scores_train_triples_small.json"
+scores_path = injection_folder + "1_bm25_scores_train_triples_small.json"
 scores = json.loads(open(scores_path, "r").read())
 for qid in tqdm.tqdm(scores.keys(), desc = "reading scores...{}".format(scores_path)):
   for did, score in scores[qid].items():
@@ -45,7 +45,7 @@ for qid in tqdm.tqdm(scores.keys(), desc = "reading scores...{}".format(scores_p
     normalized_score = int(normalized_score * 100)
     scores[qid][did] = normalized_score
 
-validation_scores_path = "./msmarco-data/injection_scores/5_bm25_scores_train-eval_triples.json"
+validation_scores_path = injection_folder + "/5_bm25_scores_train-eval_triples.json"
 scores_validation = json.loads(open(validation_scores_path, "r").read())
 for qid in tqdm.tqdm(scores_validation.keys(), desc = "reading validation scores...{}".format(validation_scores_path)):
   if qid not in scores:
