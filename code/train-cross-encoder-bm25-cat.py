@@ -24,7 +24,7 @@ logging.basicConfig(format='%(asctime)s - %(message)s',
 #### /print debug information to stdout
 
 ### We make a directory for storing the MS Marco dataset
-data_folder = '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/'
+data_folder = '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/training-data-bm25-cat'
 injection_folder = data_folder + "/injection_scores"
 os.makedirs(injection_folder, exist_ok=True)
 
@@ -59,7 +59,7 @@ for qid in tqdm.tqdm(scores_validation.keys(), desc = "reading validation scores
 model_name = 'microsoft/MiniLM-L12-H384-uncased'
 train_batch_size = 32
 num_epochs = 1
-model_save_path = 'finetuned_CEs/train-cross-encoder-kd-bm25cat-'+model_name.replace("/", "-")+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+model_save_path = data_folder + '/../models-bm25-cat/train-cross-encoder-kd-bm25cat-'+model_name.replace("/", "-")+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 
 
@@ -69,11 +69,6 @@ model = CrossEncoder(model_name, num_labels=1, max_length=512, default_activatio
 #### Read the corpus files, that contain all the passages. Store them in the corpus dict
 corpus = {}
 collection_filepath = os.path.join(data_folder, 'collection.tsv')
-if not os.path.exists(collection_filepath):
-    tar_filepath = os.path.join(data_folder, 'collection.tar.gz')
-    with tarfile.open(tar_filepath, "r:gz") as tar:
-        tar.extractall(path=data_folder)
-
 with open(collection_filepath, 'r', encoding='utf8') as fIn:
     for line in fIn:
         pid, passage = line.strip().split("\t")
@@ -83,13 +78,6 @@ with open(collection_filepath, 'r', encoding='utf8') as fIn:
 ### Read the train queries, store in queries dict
 queries = {}
 queries_filepath = os.path.join(data_folder, 'queries.train.tsv')
-if not os.path.exists(queries_filepath):
-    tar_filepath = os.path.join(data_folder, 'queries.tar.gz')
-
-    with tarfile.open(tar_filepath, "r:gz") as tar:
-        tar.extractall(path=data_folder)
-
-
 with open(queries_filepath, 'r', encoding='utf8') as fIn:
     for line in fIn:
         qid, query = line.strip().split("\t")
