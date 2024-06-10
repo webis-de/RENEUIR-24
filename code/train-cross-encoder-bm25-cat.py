@@ -56,7 +56,17 @@ for qid in tqdm.tqdm(scores_validation.keys(), desc = "reading validation scores
     scores[qid][did] = normalized_score
 
 #First, we define the transformer model we want to fine-tune
-model_name = 'prajjwal1/bert-tiny'
+
+MODELS = {
+    'bert-tiny-from-scratch': '/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/models--prajjwal1--bert-tiny/snapshots/6f75de8b60a9f8a2fdf7b69cbd86d9e64bcb3837'
+}
+
+SLURM_TASK_ID_TO_MODEL = {
+    0: 'bert-tiny-from-scratch'
+}
+
+model_name = SLURM_TASK_ID_TO_MODEL[os.environ.get('SLURM_ARRAY_TASK_ID')]
+
 train_batch_size = 32
 num_epochs = 1
 model_save_path = data_folder + '/../models-bm25-cat/train-cross-encoder-kd-bm25cat-'+model_name.replace("/", "-")+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -64,7 +74,7 @@ model_save_path = data_folder + '/../models-bm25-cat/train-cross-encoder-kd-bm25
 
 
 #We set num_labels=1 and set the activation function to Identiy, so that we get the raw logits
-model = CrossEncoder(model_name, num_labels=1, max_length=512, default_activation_function=torch.nn.Identity())
+model = CrossEncoder(MODELS[model_name], num_labels=1, max_length=512, default_activation_function=torch.nn.Identity())
 
 #### Read the corpus files, that contain all the passages. Store them in the corpus dict
 corpus = {}
