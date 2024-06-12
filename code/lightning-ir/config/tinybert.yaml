@@ -1,7 +1,7 @@
 seed_everything: 42
 trainer:
   devices: 1
-    #precision: bf16
+  precision: bf16-mixed
   callbacks:
   - class_path: lightning.pytorch.callbacks.ModelCheckpoint
     init_args:
@@ -21,7 +21,6 @@ data:
     train_dataset:
       class_path: lightning_ir.data.dataset.RunDataset
       init_args:
-        # zcat ../../data/rank-distillm-run.gz > ../../data/rank-distillm.run
         run_path: ../../data/__colbert-10000-sampled-100__msmarco-passage-train-judged.run
         targets: rank
         depth: 100
@@ -30,7 +29,6 @@ data:
 model:
   class_path: lightning_ir.cross_encoder.mono.MonoBertModule
   init_args:
-    model_name_or_path: prajjwal1/bert-tiny
     config:
       class_path: lightning_ir.MonoBertConfig
       init_args:
