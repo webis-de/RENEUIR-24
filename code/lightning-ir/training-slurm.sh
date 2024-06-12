@@ -3,7 +3,7 @@
 #SBATCH --gres=gpu:ampere
 #SBATCH --output=slurm-output/reneuir_distillation_tinybert.%j.out
 #SBATCH --error=slurm-output/reneuir_distillation_tinybert.%j.err
-#SBATCH --container-image=bash
+#SBATCH --container-image=mam10eks/reneuir-tinybert:0.0.1
 #SBATCH --array=0-4
 #SBATCH --mem=60G
 #SBATCH --cpus-per-task=4
