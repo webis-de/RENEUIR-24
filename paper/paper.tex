@@ -108,13 +108,15 @@ url=http://conceptbase.sourceforge.net/mjf/,
 
 \section{Introduction}
 
-CEUR-WS's article template provides a consistent \LaTeX{} style for
-use across CEUR-WS publications, and incorporates accessibility and
-metadata-extraction functionality. This document will explain the
-major features of the document class.
+Neural Information Retrieval has been a sea change for the field of Information Retrieval, driving unparalleled effectiveness improvements across a broad portfolio of IR tasks. However, these complex neural models bring traditional challenges in terms of much-needed computational resources, especially for efficient training and inference. This efficacy vs. computational cost dichotomy enforces the need for global evaluation of NIR methods by performance and resources. The third ReNeuIR Workshop, co-located with ACM SIGIR, will occur in Washington D.C., USA, in July 2024. It thus furthers a critical discourse on the efficiency of NIR models, including empirical justifications for increasing model complexity into daylight, urging resource-efficient model developments, and total evaluation frameworks accounting for quality, efficiency, and environmental impacts.
 
-If you are new to publishing with CEUR-WS, this document is a valuable
-guide to the process of preparing your work for publication.
+Our contribution to this discourse is also focused on optimizing TinyBERT, a lightweight language model. First, we will train various models with gradually tuned hyperparameters toward their minimization in size, subject to effectiveness. Such techniques shall be utilized at the interaction between hyperparameter optimization and model pruning for these goals.
+
+To further boost the performance of our optimized TinyBERT models, we incorporate BM25 scores. Since BM25 has been one of the most successful traditional IR models based on probabilistic retrieval, we would like to combine the BM25 scores and the output from TinyBERT to create a synergistic effect for better retrieval performance without adding too much computational overhead.
+
+Moreover, knowledge distillation will be utilized to gain efficiency and effectiveness. That is transferring knowledge from a large, well-performing teacher model to a smaller, more efficient student model. We can expect iterative distillation and finetuning to realize models that balance high effectiveness with low computational requirements.
+
+This paper discusses an in-depth understanding of TinyBERT with hyperparameter optimization, BM25 integration, and knowledge distillation toward developing efficient NIR models. We work towards a long-term vision for sustainable and effective neural information retrieval—themes and motivations that best fit the ReNeuIR Workshop.
 
 \input{paper-part2}
 
