@@ -1,7 +1,20 @@
 \section{TinyBERT for Passage Re-Ranking on MS~MARCO}
 
-\subsection{Plain TinyBERT}
+This section will introduce three approaches for training models for page reranking. First, we will train the plain TinyBERT model. Next, we will discuss the distillation process, and finally, we will cover the BM25 score injection method.
+
+\subsection{Plain training on TinyBERT}\label{plaintiny}
+% \subsection{Hyperparameter search on TinyBERT}
+% \subsection{Research on plain TinyBERT}
+
+In our first approach we trained the TinyBERT model by conducting a comprehensive hyperparameter search, systematically adjusting parameters. For comparison purposes, we initially defined a baseline with a batch size of $32$, $10$ epochs, and a learning rate of $2\mathrm{e}{-5}$. The variants we trained are listed in {\color{red} TABLE 1}. The dataset we used for this training was an extracted version of the MS MARCO Train Triples Small passage ranking dataset, containing approximately 8 million data samples.
+
+We later used an existing script designed for training models with BM25 score injection. To ensure consistency, we applied the same script for TinyBERT training, but without injecting any scores. This strategy was crucial as it allowed us to compare TinyBERT directly with other models trained on the same dataset, ensuring that any performance differences could be attributed to the model architectures rather than variations in the training process. The dataset used with the BM25 score injection script also contained approximately 8 million data samples from the MS MARCO Train Triples Small passage ranking dataset. This methodical approach facilitated a robust evaluation of TinyBERT's performance relative to other models trained under identical conditions.
 
 \subsection{Distilling RankZephyr into TinyBERT}
 
+{\color{red} Wer macht das?}
+
 \subsection{BM25 Score Injection for TinyBERT}
+
+
+To implement BM25 score injection, we referenced the paper \cite{askari23} to understand the methodology thoroughly. Finding their training script effective, we adopted it for our experiments. We conducted training using multiple variants: one with BM25 injection on the non-pretrained TinyBERT and another on the pretrained TinyBERT trained on the 1GB dataset which we introduced in section \hyperref[plaintiny]{Plain training on TinyBERT}. To prevent overfitting, we implemented an additional version for BM25 injection that includes early stopping. This involved integrating logic into our Cross Encoder, which assesses the model's performance during each evaluation phase. Specifically, it checks if the model achieves results at least as good as 99.5\% of its best performance so far. If this criterion isn't met consecutively three times, the training process stops automatically. This approach ensured that our models were trained efficiently and effectively, as described earlier.
