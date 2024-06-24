@@ -4,3 +4,6 @@ docker-bash:
 		-v ${PWD}:/workspace -w /workspace \
 		-v /mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/:/mnt/ceph/storage/data-in-progress/data-research/web-search/RENEUIR-24/ \
 		--entrypoint bash  mam10eks/reneuir-tinybert:0.0.1
+
+jupyter:
+	docker run --rm -ti -p 8888:8888 -v ${PWD}:/workspace/ -w /workspace webis/ir-lab-wise-2023:0.0.4 jupyter notebook --allow-root --ip 0.0.0.0
