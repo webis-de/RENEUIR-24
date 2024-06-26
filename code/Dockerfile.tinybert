@@ -1,0 +1,9 @@
+# docker build -t tinybert-plain:0.0.1 -f Dockerfile.tinybert .
+FROM mam10eks/reneuir-tinybert:0.0.1
+
+ADD run-notebook.py /run-notebook.py
+ADD re-rank-with-tiny-bert.ipynb /re-rank-with-tiny-bert.ipynb
+RUN pip3 uninstall -y tira&& pip3 install runnb tira && jupyter trust /re-rank-with-tiny-bert.ipynb
+
+ENTRYPOINT [ "/run-notebook.py", "--notebook", "/re-rank-with-tiny-bert.ipynb" ]
+
