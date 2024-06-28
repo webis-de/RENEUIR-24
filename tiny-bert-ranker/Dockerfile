@@ -9,5 +9,5 @@ ARG MODEL_NAME
 ENV MODEL=$MODEL_NAME
 RUN huggingface-cli download $MODEL && python3 -c 'from sentence_transformers import CrossEncoder; import os; CrossEncoder(os.environ["MODEL"])'
 
-ENTRYPOINT [ "bash", "-c", "export MODEL=\"$(huggingface-cli download $MODEL)\" && /run-notebook.py --notebook /re-rank-with-tiny-bert.ipynb" ]
+ENTRYPOINT [ "/run-notebook.py", "--notebook", "/re-rank-with-tiny-bert.ipynb" ]
 

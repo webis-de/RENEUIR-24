@@ -6,7 +6,7 @@ ADD tiny-bert-ranker-distillation/config /config
 ARG MODEL_NAME
 RUN huggingface-cli download $MODEL_NAME
 
-ENV MODEL=/model
+ENV MODEL=$MODEL_NAME
 ENV CONFIG_DIR=/config
 
 
