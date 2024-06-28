@@ -1,9 +1,12 @@
 # docker build -t tinybert-catbm25:0.0.1 -f Dockerfile.tinybertcatbm25 .
 FROM mam10eks/reneuir-tinybert:0.0.1
 
-ADD run-notebook.py /run-notebook.py
-ADD re-rank-with-tiny-bert-bm25cat.ipynb /re-rank-with-tiny-bert-bm25cat.ipynb
+ADD code/run-notebook.py /run-notebook.py
+ADD code/re-rank-with-tiny-bert-bm25cat.ipynb /re-rank-with-tiny-bert-bm25cat.ipynb
 RUN pip3 uninstall -y tira&& pip3 install runnb tira && jupyter trust /re-rank-with-tiny-bert-bm25cat.ipynb
 
-ENTRYPOINT [ "/run-notebook.py", "--notebook", "/re-rank-with-tiny-bert-bm25cat.ipynb" ]
+ARG MODEL_NAME
+RUN huggingface-cli download $MODEL_NAME
+ENV MODEL=/model
 
+ENTRYPOINT [ "/run-notebook.py", "--notebook", "/re-rank-with-tiny-bert-bm25cat.ipynb" ]
