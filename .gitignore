@@ -14,6 +14,7 @@ triples-train.jsonl
 cross-encoder-bert-tiny-*
 cross-encoders_old/
 fine-tuned/
+.ipynb_checkpoints
 bm25/
 triples*
 msmarco-passage-trec-dl-2019-judged-20230107-training-rerank.jsonl.gz
