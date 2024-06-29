@@ -3,7 +3,6 @@ import argparse
 import subprocess
 import sys
 import os
-from huggingface_hub import snapshot_download
 
 def parse_args():
     parser = argparse.ArgumentParser(description='')
@@ -19,7 +18,10 @@ def main(args):
         print(f'Change directory to allow relative imports to "{args.chdir}".', flush=True)
         os.chdir(args.chdir)
 
-    os.environ['MODEL'] = snapshot_download(os.environ['MODEL'], local_files_only=True)
+    if 'MODEL' in os.environ:
+        from huggingface_hub import snapshot_download
+        os.environ['MODEL'] = snapshot_download(os.environ['MODEL'], local_files_only=True)
+
     command = f'runnb --allow-not-trusted {args.notebook}'
     subprocess.check_call(command, shell=True, stdout=sys.stdout, stderr=subprocess.STDOUT)
 
