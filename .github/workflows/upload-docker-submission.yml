@@ -5,7 +5,7 @@ on:
       dockerdir:
         description: The path to the Dockerfile that you want to build and execute.
         required: true
-        default: tiny-bert-ranker/Dockerfile
+        default: tiny-bert-ranker
       model:
         description: The huggingface model you want to embedd in the Docker image.
         required: true
