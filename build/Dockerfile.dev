@@ -1,9 +1,10 @@
-# docker build -t mam10eks/reneuir-tinybert:0.0.1 .
-FROM fschlatt/slurm:0.0.1
+# docker build -t mam10eks/reneuir-tinybert:0.0.1 -f Dockerfile.dev .
+FROM pytorch/pytorch:2.3.0-cuda12.1-cudnn8-runtime
 
-RUN pip3 install tira sentence-transformers
-
-RUN git clone https://github.com/webis-de/lightning-ir.git /lightning-ir \
+RUN apt-get update \
+	&& apt-get -y install git \ 
+	&& pip3 install tira transformers sentence-transformers runnb jupyter \
+	&& git clone https://github.com/webis-de/lightning-ir.git /lightning-ir \
 	&& cd /lightning-ir \
 	&& pip3 install .
 
