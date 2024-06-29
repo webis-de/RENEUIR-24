@@ -38,5 +38,5 @@ jobs:
         run: |
           cd ${{ github.workspace }}
           tira-cli login --token ${{ secrets.TIRA_AUTH_TOKEN }}
-          docker build -t ${inputs.dockerdir} -f ${{ inputs.dockerdir }}/Dockerfile --build-arg MODEL_NAME=${{ inputs.model }} .
+          docker build -t ${{ inputs.dockerdir }} -f ${{ inputs.dockerdir }}/Dockerfile --build-arg MODEL_NAME=${{ inputs.model }} .
           tira-run --input-dataset reneuir-2024/re-rank-spot-check-20240624-training --image ${{ inputs.dockerdir }} --push true --fail-if-output-is-empty
