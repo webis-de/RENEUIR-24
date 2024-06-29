@@ -5,7 +5,6 @@ ADD tiny-bert-ranker-distillation/config /config
 
 ARG MODEL_NAME
 RUN pip3 install --no-deps ir_datasets \
-	&& pip3 install lightning ir_measures faiss-cpu jsonargparse \
 	&& huggingface-cli download $MODEL_NAME
 
 ENV MODEL=$MODEL_NAME

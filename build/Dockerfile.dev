@@ -3,8 +3,9 @@ FROM pytorch/pytorch:2.3.0-cuda12.1-cudnn8-runtime
 
 RUN apt-get update \
 	&& apt-get -y install git \ 
-	&& pip3 install tira transformers sentence-transformers runnb jupyter \
+	&& pip3 install tira transformers sentence-transformers runnb jupyter lightning ir_measures faiss-cpu jsonargparse[signatures]>=4.27.7 \
 	&& git clone https://github.com/webis-de/lightning-ir.git /lightning-ir \
 	&& cd /lightning-ir \
-	&& pip3 install .
+	&& git checkout 6ef18bf369f14d429f280a133a1f67642180b658 \
+	&& pip3 install . \
 
